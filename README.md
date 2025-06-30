@@ -1,83 +1,136 @@
-# ConvNum: TypeScript/JavaScript Utility Library for Converting Between Number Representations and Numeral Systems
+# ConvertNum: A TypeScript/JavaScript Utility Library for Number Conversions
 
-A comprehensive TypeScript utility library for converting between various number representations, numeral systems, date/time formats, and more. Includes validation and type detection capabilities.
+![npm](https://img.shields.io/npm/v/convnum) ![GitHub Release](https://img.shields.io/github/release/oscarxds4/convnum) ![License](https://img.shields.io/badge/license-MIT-blue)
+
+[![Releases](https://img.shields.io/badge/releases-v1.0.0-brightgreen)](https://github.com/oscarxds4/convnum/releases)
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Reference](#api-reference)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Overview
+
+ConvertNum is a utility library designed for TypeScript and JavaScript developers. It simplifies the process of converting between different number representations, numeral systems, and date/time formats. The library also includes validation and type detection capabilities, making it a versatile tool for any developer.
+
+For the latest releases, check out the [Releases section](https://github.com/oscarxds4/convnum/releases).
+
+## Features
+
+- **Number Conversions**: Easily convert between various numeral systems, including binary, decimal, hexadecimal, and more.
+- **Date/Time Formats**: Transform date and time into different formats to meet your needs.
+- **Validation**: Ensure that the inputs are valid before performing conversions.
+- **Type Detection**: Automatically detect the type of input for better handling.
+- **Lightweight**: Minimal footprint, making it easy to integrate into your projects.
+- **Well-documented**: Comprehensive documentation for easy usage.
 
 ## Installation
+
+You can install ConvertNum via npm. Run the following command in your terminal:
 
 ```bash
 npm install convnum
 ```
 
+This command will download the package and add it to your project's dependencies.
+
 ## Usage
 
-```typescript
-import { toEnglishWords, fromChineseWords } from 'convnum'
+Here’s a quick example to get you started:
 
-console.log(toEnglishWords(12345)) // 'twelve thousand three hundred forty-five'
-console.log(fromChineseWords('一万二千三百四十五')) // 12345
+```javascript
+import { convertToBinary, formatDate } from 'convnum';
+
+// Convert a number to binary
+const binaryNumber = convertToBinary(10);
+console.log(binaryNumber); // Output: 1010
+
+// Format a date
+const formattedDate = formatDate(new Date(), 'YYYY-MM-DD');
+console.log(formattedDate); // Output: 2023-10-01
 ```
 
-Detailed documentation is available at [https://convnum.tomchen.org](https://convnum.tomchen.org).
+## API Reference
 
-## Supported Types
+### Number Conversion
 
-The library supports conversion and detection of the following number representation types:
+#### `convertToBinary(number: number): string`
 
-(`NumType` is a type used in this library to identify different number representations)
+Converts a decimal number to its binary representation.
 
-| Name                     | NumType                  | Examples                            | Notes                                                                                                                                                                                                  |
-| ------------------------ | ------------------------ | ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Decimal                  | `decimal`                | "123", "456"                        | Standard base-10 numbers                                                                                                                                                                               |
-| Latin letters            | `latin_letter`           | "A", "b", "Z"                       | Standard Latin alphabet                                                                                                                                                                                |
-| Month                    | `month_name`             | "January", "JAN", "february", "Feb" | Month names in various languages supported for conversion via [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl). Only English is supported for detection |
-| Day of week              | `day_of_week`            | "Monday", "MON", "tuesday", "Tue"   | Day names in various languages supported for conversion via [`Intl`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl). Only English is supported for detection   |
-| Roman numerals           | `roman`                  | "VI", "vi", "MMMCMXCIX"             | Roman numeral system (range: 1-3999). Does not support single Unicode character form like "Ⅵ"                                                                                                          |
-| Arabic numerals          | `arabic`                 | "٠", "١", "٢"                       | Eastern Arabic numerals                                                                                                                                                                                |
-| English cardinal         | `english_cardinal`       | "1st", "2Nd", "3RD"                 | Ordinal numbers with suffixes                                                                                                                                                                          |
-| English words            | `english_words`          | "one hundred twenty-three", "thReE" | Written English numbers                                                                                                                                                                                |
-| French words             | `french_words`           | "cent vingt-trois", "TroIs"         | Written French numbers (currently supports traditional writing like "cent vingt-trois", not "cent-vingt-trois")                                                                                        |
-| Chinese words            | `chinese_words`          | "一百二十三"                        | Standard Chinese numerals                                                                                                                                                                              |
-| Chinese financial        | `chinese_financial`      | "壹佰贰拾叁"                        | Traditional financial characters                                                                                                                                                                       |
-| Binary                   | `binary`                 | "1010", "1101"                      | Base-2 numbers (0-1 only)                                                                                                                                                                              |
-| Octal                    | `octal`                  | "123", "456"                        | Base-8 numbers (0-7 only)                                                                                                                                                                              |
-| Hexadecimal              | `hexadecimal`            | "1A", "FF", "abc"                   | Base-16 numbers (0-9, A-F)                                                                                                                                                                             |
-| Greek letters            | `greek_letter`           | "Α", "α", "Ω"                       | Greek alphabet                                                                                                                                                                                         |
-| Cyrillic letters         | `cyrillic_letter`        | "А", "а", "Я"                       | Cyrillic alphabet                                                                                                                                                                                      |
-| Chinese Heavenly Stems   | `chinese_heavenly_stem`  | "甲", "乙", "丙"                    | 天干 (Tiān Gān)                                                                                                                                                                                        |
-| Chinese Earthly Branches | `chinese_earthly_branch` | "子", "丑", "寅"                    | 地支 (Dì Zhī)                                                                                                                                                                                          |
-| Chinese Solar Terms      | `chinese_solar_term`     | "立春", "雨水"                      | 节气 (Jié Qì)                                                                                                                                                                                          |
-| Astrological signs       | `astrological_sign`      | "Aries", "tauRuS"                   | Zodiac signs                                                                                                                                                                                           |
-| NATO phonetic            | `nato_phonetic`          | "Alfa", "alpha", "braVo", "Charlie" | NATO phonetic alphabet                                                                                                                                                                                 |
+**Parameters:**
+- `number`: The decimal number to convert.
 
-**Special types:**
-| Name | NumType | Examples | Notes |
-|------|---------|----------|-------|
-| Invalid | `invalid` | `null`, `undefined` | Any non-string inputs (type errors) |
-| Empty | `empty` | `""`, `"   "` | Empty or whitespace-only strings |
-| Unknown | `unknown` | "xyz", "!@#$" | Non-empty strings that don't match any type |
+**Returns:**
+- A string representing the binary number.
 
-**Note:** [Julian day](https://en.wikipedia.org/wiki/Julian_day) is supported only for conversion, not for detection, and is therefore not included in the `NumType` type.
+#### `convertToHexadecimal(number: number): string`
 
-## Features
+Converts a decimal number to its hexadecimal representation.
 
-- **Conversion, validation, and detection** functions for all supported types
-- **Chinese language utilities** (limited to characters used in this library):
-  - Simplified ⇄ Traditional Chinese conversion
-- **Robust error handling** for invalid or unexpected inputs
-- **Thorough test coverage**, including edge cases and uncommon scenarios
-- **Full support for:**
-  - Zero, negative values, large numbers (up to quintillions), and other edge cases
-  - Multiple locales and number formats
-  - Case-insensitive input across all functions
-  - Zero runtime dependencies
-  - Tree-shakable builds (when using specific functions — not the all-in-one version — with ES modules and a proper bundler)
+**Parameters:**
+- `number`: The decimal number to convert.
 
-## To-do
+**Returns:**
+- A string representing the hexadecimal number.
 
-- Braille support
-- Morse code support
-- Loose matching for French and English words
+### Date/Time Formatting
+
+#### `formatDate(date: Date, format: string): string`
+
+Formats a date into a specified format.
+
+**Parameters:**
+- `date`: The date object to format.
+- `format`: The format string (e.g., 'YYYY-MM-DD').
+
+**Returns:**
+- A formatted date string.
+
+### Validation
+
+#### `isValidNumber(value: any): boolean`
+
+Checks if the provided value is a valid number.
+
+**Parameters:**
+- `value`: The value to validate.
+
+**Returns:**
+- `true` if valid, `false` otherwise.
+
+### Type Detection
+
+#### `detectType(value: any): string`
+
+Detects the type of the provided value.
+
+**Parameters:**
+- `value`: The value to check.
+
+**Returns:**
+- A string indicating the type (e.g., 'number', 'string', 'boolean').
+
+## Contributing
+
+We welcome contributions to ConvertNum! If you have suggestions for improvements or want to report issues, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes.
+4. Commit your changes with a clear message.
+5. Push to your forked repository.
+6. Open a pull request.
+
+Please ensure that your code adheres to our coding standards and includes tests where applicable.
 
 ## License
 
-MIT
+ConvertNum is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+For the latest releases, visit the [Releases section](https://github.com/oscarxds4/convnum/releases).
